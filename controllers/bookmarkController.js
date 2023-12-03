@@ -7,7 +7,11 @@ const {
   deleteBookmark,
   updateBookmark,
 } = require("../queries/bookmarks");
+
 const { checkName, checkBoolean, validateURL } = require("../validations/checkBookmarks.js");
+
+const reviewsController = require("./reviewsController.js");
+bookmarks.use("/:bookmarkId/reviews", reviewsController);
 
 // INDEX
 bookmarks.get("/", async (req, res) => {
@@ -21,7 +25,7 @@ bookmarks.get("/", async (req, res) => {
 
 // SHOW
 bookmarks.get("/:id", async (req, res) => {
-  const id = req.params.id;
+  const {id} = req.params;
   const bookmark = await getBookmark(id);
   if (bookmark) {
     res.json(bookmark);
